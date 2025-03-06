@@ -1,0 +1,42 @@
+[GLOBAL]
+pants_version = "2.24.2"
+
+backend_packages = [
+  "pants.backend.awslambda.python",
+  "pants.backend.docker",
+  "pants.backend.python",
+  "pants.backend.shell",
+
+  "pants.backend.build_files.fmt.ruff",
+  "pants.backend.experimental.python.lint.ruff.check",
+  "pants.backend.experimental.python.lint.ruff.format",
+]
+
+[source]
+# The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
+root_patterns = ["/"]
+
+[python]
+# The default interpreter compatibility for code in this repo. Individual targets can override
+#  this with the `compatibility` field. See
+#  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
+interpreter_constraints = [">=3.11,<3.12"]
+# Use a lockfile. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
+enable_resolves = true
+pip_version = "24.2"
+
+[python.resolves]
+python-default = "lockfiles/python-default.lock"
+ruff = "lockfiles/ruff.lock"
+
+[ruff]
+install_from_resolve = "ruff"
+
+[update-build-files]
+formatter = "ruff"
+
+[cli.alias]
+create_venv = "run src/meta/venv:create"
+sync_venv = "export --export-resolve=python-default --export-py-resolve-format=symlinked_immutable_virtualenv"
+lock = "generate-lockfiles --resolve=python-default --diff=true"
+install = "lock sync_venv"
