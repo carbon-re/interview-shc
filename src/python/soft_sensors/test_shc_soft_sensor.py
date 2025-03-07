@@ -25,5 +25,11 @@ def test_shc():
 
     assert result.shc[0] == expected
 
+
+def test_shc_from_file(test_data):
+    df = test_data("abc.csv")
+    print(df)
+    assert False
+
 if typing.TYPE_CHECKING:
     x: SoftSensor = ShcSoftSensor()
