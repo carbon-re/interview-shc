@@ -18,3 +18,5 @@ terraform.tfstate*
 Thumbs.db
 
 .pants.d
+/dist/
+/todo.org
