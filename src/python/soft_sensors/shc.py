@@ -1,4 +1,5 @@
 import pandas as pd
+
 class ShcSoftSensor:
 
     CLINKER_RATIO = 1.55
