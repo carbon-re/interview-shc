@@ -9,6 +9,7 @@
 //     "CPython<3.12,>=3.11"
 //   ],
 //   "generated_with_requirements": [
+//     "click",
 //     "colorama",
 //     "pandas",
 //     "pytest",
@@ -31,6 +32,27 @@
   "locked_resolves": [
     {
       "locked_requirements": [
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2",
+              "url": "https://files.pythonhosted.org/packages/7e/d4/7ebdbd03970677812aac39c869717059dbb71a4cfc033ca6e5221787892c/click-8.1.8-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a",
+              "url": "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz"
+            }
+          ],
+          "project_name": "click",
+          "requires_dists": [
+            "colorama; platform_system == \"Windows\"",
+            "importlib-metadata; python_version < \"3.8\""
+          ],
+          "requires_python": ">=3.7",
+          "version": "8.1.8"
+        },
         {
           "artifacts": [
             {
@@ -514,6 +536,7 @@
   "pip_version": "24.2",
   "prefer_older_binary": false,
   "requirements": [
+    "click",
     "colorama",
     "pandas",
     "pytest",
