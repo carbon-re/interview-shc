@@ -1,4 +1,5 @@
 import csv
+import json
 import random
 from datetime import datetime, timedelta
 
@@ -27,6 +28,7 @@ random.seed(SEED)
 # Data Generation
 # -----------------------
 rows = []
+shc_rows = {}
 current_time = START_DATE
 
 for i in range(NUM_HOURS):
@@ -44,14 +46,16 @@ for i in range(NUM_HOURS):
     coal_feed = max(coal_feed, MIN_VALUE)
 
     # Build row
+    ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
     row = {
-        'timestamp': current_time.strftime('%Y-%m-%d %H:%M:%S'),
+        'timestamp': ts,
         's_ph_sil_tput': round(kiln_feed, 2),    # t/h
         'f_k_coal_tput': round(coal_feed, 2),    # t/h
         'f_k_coal_ncv': COAL_NCV,               # kcal/kg
     }
 
     rows.append(row)
+    shc_rows[ts] = int(shc)
     current_time += timedelta(hours=1)
 
 # -----------------------
@@ -66,5 +70,9 @@ with open(csv_filename, mode='w', newline='') as f:
     writer.writeheader()
     for r in rows:
         writer.writerow(r)
+
+
+with open("/tmp/abc.expected.json", "w") as f:
+    json.dump(shc_rows, f)
 
 print(f"CSV file '{csv_filename}' generated with {NUM_HOURS} rows.")
