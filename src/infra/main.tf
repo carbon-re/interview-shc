@@ -13,3 +13,7 @@ module "lambda_function" {
     Name = "my-lambda1"
   }
 }
+
+aws_s3_bucket {
+  bucket_prefix = "cre-data-shc"
+}
