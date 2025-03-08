@@ -118,7 +118,7 @@ for i in range(NUM_HOURS):
     #
     row = {
         'timestamp': ts,
-        'kiln_feed_tph': kiln_feed,
+        's_ph_sil_tput': kiln_feed,
         'f_k_rdf_tput': rdf_feed,
         'f_k_rdf_ncv': rdf_ncv_gjpt,  # store in GJ/ton
         'f_k_petcoke_tput': petcoke_feed,
@@ -142,7 +142,7 @@ for i in range(NUM_HOURS):
 csv_filename = '/tmp/def.csv'
 fieldnames = [
     'timestamp',
-    'kiln_feed_tph',
+    's_ph_sil_tput',
     'f_k_rdf_tput',
     'f_k_rdf_ncv',
     'f_k_petcoke_tput',
