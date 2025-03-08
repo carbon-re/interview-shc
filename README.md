@@ -14,6 +14,7 @@ Your interviewer will already have a laptop set up, but you may use your own lap
 * The pants launcher (www.pantsbuild.org)
 * Python 3.11
 * Gnu tools (diff, grep, bash)
+* The AWS cli
 
 Your interviewer can provide an access key and secret so that you can access a sandbox environment.
 
