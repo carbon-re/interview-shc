@@ -8,7 +8,11 @@ Pants package will create a lambda.zip in dist.
 
 Terraform is set up with serverless.tf to deploy that zip file.
 
-You'll need to attach a bucket policy for the lambda to read data. Just use the [Read Only managed policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonS3ReadOnlyAccess.html)
+You'll need to attach a bucket policy for the lambda to read data. Just use the [Read Only managed policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonS3ReadOnlyAccess.html). There's an example of doing that in the [serverless.tf repo](https://github.com/terraform-aws-modules/terraform-aws-lambda/blob/master/examples/complete/main.tf#L155C1-L156C69)
+
+You're also going to want to pass the bucket as an env var to the lambda, or ... hardcode it after getting it out of terraform state or something. Example again [here](https://github.com/terraform-aws-modules/terraform-aws-lambda/blob/master/examples/complete/main.tf#L50).
+
+Bear in mind that your candidate may not have any AWS experience, or Terraform experience, so be prepared to baby step them if necessary. You don't need to go to the AWS console or understand much, so long as you package, deploy, and then run the test scripts.
 
 ## Before starting
 
