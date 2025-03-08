@@ -25,3 +25,9 @@ variable "lambda_role_arn" {
   # Example only; you could also create a role in the same code if you prefer.
   default = ""
 }
+
+
+variable "wrangler_layer_arn" {
+  type    = string
+  default = "arn:aws:lambda:eu-west-1:336392948345:layer:AWSSDKPandas-Python311:20"
+}

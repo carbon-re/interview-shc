@@ -9,6 +9,10 @@ module "lambda_function" {
   create_package         = false
   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
 
+  layers = [
+    var.wranger_layer_arn
+  ]
+
   tags = {
     Name = "my-lambda1"
   }
