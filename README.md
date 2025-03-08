@@ -2,6 +2,10 @@
 
 This exercise is designed as a fun toy problem that's similar to the work we do every day on the platform team.
 
+It has a bit of cloud engineering, a bit of TDD, a bit of cement knowledge, a bit of data engineering. You are not expected to understand it all, or to finish the exercise: we want to see how you work when you are in an unfamiliar, complex domain.
+
+Your interviewer is here to help! You can ask them any questions about the code, the problem, or the context. They want to see you do well, because that's more fun for everybody.
+
 There is [some background information](https://carbonre.notion.site/SHC-1ae57d5bd89d80ac8c8bfcf85f264c4e?pvs=74) on our notion site.
 
 Your interviewer will already have a laptop set up, but you may use your own laptop if you wish. For that to work, you will need a few tools.
