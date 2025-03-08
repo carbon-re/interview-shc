@@ -21,6 +21,10 @@ module "lambda_function" {
   environment_variables = {
     BUCKET = aws_s3_bucket.this.bucket
   }
+
+
+  attach_policy = true
+  policy        = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 resource "aws_s3_bucket" "this" {
