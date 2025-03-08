@@ -25,18 +25,18 @@ resource "aws_s3_bucket" "this" {
 }
 
 locals {
-  files = [
+  files = toset([
     "plant-data/abc.csv",
     "plant-data/abc.README.md",
     "plant-data/bcd.csv",
     "plant-data/bcd.README.md",
-  ]
+  ])
 }
 
 resource "aws_s3_object" "data" {
   for_each = local.files
   bucket   = aws_s3_bucket.this.bucket
-  key      = "abc.csv"
+  key      = split("/", each.value)[1]
   source   = each.value
   etag     = filemd5(each.value)
 }
