@@ -9,3 +9,8 @@ aws lambda invoke \
     /tmp/response.json
 
 diff <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json")
+if [ $? -eq 0 ]; then
+    echo "passed!"
+else
+    echo "FAILED!"
+fi
