@@ -56,16 +56,9 @@ for i in range(NUM_HOURS):
     if in_zero_window:
         # Add a small random epsilon to simulate near-zero sensor noise, in t/h
         kiln_feed = random.uniform(0.0, 0.001)  # up to ~1 kg/h
-    else:
-        kiln_feed = max(random.normalvariate(KILN_FEED_MEAN, KILN_FEED_STD), MIN_VALUE)
-
-    # --------------------------
-    # 3) Back-calculate coal feed
-    # --------------------------
-    # If intended SHC or kiln feed is zero, we want near-zero feed with sensor noise
-    if shc_raw == 0.0 or kiln_feed <= 0.0:
         coal_feed = random.uniform(0.0, 0.0001)  # up to ~0.1 kg/h
     else:
+        kiln_feed = max(random.normalvariate(KILN_FEED_MEAN, KILN_FEED_STD), MIN_VALUE)
         coal_feed = (shc_raw * kiln_feed) / (COAL_NCV * CLINKER_RATIO)
         coal_feed = max(coal_feed, MIN_VALUE)
 
@@ -97,7 +90,7 @@ for i in range(NUM_HOURS):
     rows.append(row)
 
     # Only store SHC if it's > 0
-    if final_shc_int > 0:
+    if not in_zero_window:
         shc_rows[ts] = final_shc_int
 
     current_time += timedelta(hours=1)

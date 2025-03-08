@@ -9,11 +9,15 @@ aws lambda invoke \
     --log-type=Tail \
     --payload='{"plant": "bcd"}' \
     --cli-binary-format raw-in-base64-out \
-    /tmp/response.json
+    --query 'LogResult' --output text \
+    /tmp/response.json | base64 -d
 
-diff <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/bcd.expected.json")
+diff -q --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/bcd.expected.json")
 if [ $? -eq 0 ]; then
     echo "passed!"
 else
+
+    diff -y --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/bcd.expected.json") | head -n20
+    grep error /tmp/response.json
     echo "FAILED!"
 fi
