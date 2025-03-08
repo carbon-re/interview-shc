@@ -30,7 +30,7 @@ You must build a lambda function that:
 
 Each cement plant has a CSV file stored in an S3 bucket. The files are in this repository at `src/infra/plant-data`.
 Each csv file is accompanied with a README. 
-The csvs are readmes are uploaded to an S3 bucket with a random name in the root of the bucket, eg. "$BUCKET_NAME/abc.csv" and "$BUCKET_NAME/abc.README.md"
+The csvs and readmes are uploaded to an S3 bucket with a random name in the root of the bucket, eg. "$BUCKET_NAME/abc.csv" and "$BUCKET_NAME/abc.README.md"
 
 We suggest starting with `abc.csv` (Al Buraimi Cement).
 
