@@ -10,7 +10,7 @@ module "lambda_function" {
   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
 
   layers = [
-    var.wranger_layer_arn
+    var.wrangler_layer_arn
   ]
 
   tags = {
