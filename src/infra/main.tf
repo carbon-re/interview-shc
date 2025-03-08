@@ -14,6 +14,14 @@ module "lambda_function" {
   }
 }
 
-aws_s3_bucket {
+resource "aws_s3_bucket" "this" {
   bucket_prefix = "cre-data-shc"
+  force_destroy = true
+}
+
+
+resource "aws_s3_object" "this" {
+  bucket = aws_s3_bucket.this.bucket
+  key    = "abc.csv"
+  source = "plant-data/abc.csv"
 }
