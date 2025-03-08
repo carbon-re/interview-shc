@@ -17,6 +17,10 @@ module "lambda_function" {
   tags = {
     Name = "my-lambda1"
   }
+
+  environment_variables = {
+    BUCKET = aws_s3_bucket.this.bucket
+  }
 }
 
 resource "aws_s3_bucket" "this" {
