@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 # Configuration
 # -----------------------
 START_DATE = datetime(2023, 1, 1, 0, 0)
-NUM_DAYS = 365
+NUM_DAYS = 60  # e.g., 2 months of data, adjust as needed
 NUM_HOURS = 24 * NUM_DAYS
 SEED = 42  # for reproducibility
 
@@ -20,23 +20,23 @@ SHC_STD = 20.0
 KILN_FEED_MEAN = 160.0
 KILN_FEED_STD = 10.0
 
-# RDF feed distribution (when running)
-RDF_FEED_MEAN = 120.0
-RDF_FEED_STD = 5.0
+# RDF feed: normally in [8, 12]
+RDF_FEED_MIN = 8.0
+RDF_FEED_MAX = 12.0
 
 # RDF NCV range
-RDF_NCV_MIN = 4800
-RDF_NCV_MAX = 5700
+RDF_NCV_MIN = 4800.0
+RDF_NCV_MAX = 5700.0
 
 # Coal NCV (fixed)
-COAL_NCV = 5500  # kcal/kg
+COAL_NCV = 5500.0  # kcal/kg
 
 # Clinker ratio
 CLINKER_RATIO = 1.55
 
-# Zero-rdf window in the middle
-ZERO_RDF_START = START_DATE + timedelta(days=100)
-ZERO_RDF_END   = ZERO_RDF_START + timedelta(days=20)  # 20-day downtime
+# Zero-RDF window
+ZERO_RDF_START = START_DATE + timedelta(days=20)  # day 20 to 25, for example
+ZERO_RDF_END   = ZERO_RDF_START + timedelta(days=5)
 
 random.seed(SEED)
 
@@ -49,27 +49,26 @@ current_time = START_DATE
 
 for i in range(NUM_HOURS):
     ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
-
-    # Is this hour in the zero-RDF window?
     in_zero_rdf = (ZERO_RDF_START <= current_time < ZERO_RDF_END)
 
-    # 1) Intended SHC from normal dist
+    # 1) Intended SHC from normal dist (around 800 ± 20)
     shc_raw = random.normalvariate(SHC_MEAN, SHC_STD)
 
     # 2) Kiln feed from normal dist
     kiln_feed = max(random.normalvariate(KILN_FEED_MEAN, KILN_FEED_STD), 0.0)
 
-    # 3) RDF feed & NCV
+    # 3) RDF feed
     if in_zero_rdf:
-        # RDF near zero, but add small random "sensor noise"
-        rdf_feed = random.uniform(0.0, 0.001)  # up to ~1 kg/h
+        # If in zero window, near zero with sensor noise up to 0.001 t/h
+        rdf_feed = random.uniform(0.0, 0.001)
     else:
-        rdf_feed = max(random.normalvariate(RDF_FEED_MEAN, RDF_FEED_STD), 0.0)
+        # Normally between 8 and 12 t/h
+        rdf_feed = random.uniform(RDF_FEED_MIN, RDF_FEED_MAX)
 
+    # 4) RDF NCV for this hour
     rdf_ncv = random.uniform(RDF_NCV_MIN, RDF_NCV_MAX)
 
-    # 4) Calculate the total heat needed to hit the desired SHC
-    #    total_heat_needed (kcal/h) = shc * (clinker_mass)
+    # 5) Calculate total heat needed to meet desired SHC
     #    clinker_mass (kg/h) = (kiln_feed * 1000) / clinker_ratio
     clinker_mass_kgph = (kiln_feed * 1000.0) / CLINKER_RATIO
     if clinker_mass_kgph <= 0:
@@ -77,51 +76,46 @@ for i in range(NUM_HOURS):
     else:
         total_heat_needed = shc_raw * clinker_mass_kgph
 
-    # 5) Heat contributed by RDF
-    #    rdf_heat = (rdf_feed_t/h * 1000) * rdf_ncv
+    # 6) Heat contributed by RDF
+    #    rdf_heat = rdf_feed(t/h)*1000 kg/t * rdf_ncv(kcal/kg)
     rdf_heat = rdf_feed * 1000.0 * rdf_ncv
 
-    # 6) Coal feed: balance the remaining heat
-    #    coal_heat = total_heat_needed - rdf_heat
-    #    coal_feed (t/h) = coal_heat / (1000 * coal_ncv)
+    # 7) Coal feed is whatever is needed to meet total_heat_needed
     coal_heat = total_heat_needed - rdf_heat
     if coal_heat <= 0:
-        # means RDF more than covers the needed heat (or no heat needed),
-        # so no coal needed
+        # Means RDF alone covers or exceeds needed heat
         coal_feed = 0.0
         coal_heat = 0.0
     else:
+        # coal_feed (t/h) = coal_heat / (1000 kg/t * coal_ncv(kcal/kg))
         coal_feed = coal_heat / (1000.0 * COAL_NCV)
 
-    # 7) Final recalculation of SHC from these two fuels
-    #    total_heat = rdf_heat + coal_heat
-    #      (we use the actual calc from feed values to ensure consistency)
-    total_heat_final = (rdf_feed * 1000.0 * rdf_ncv) + (coal_feed * 1000.0 * COAL_NCV)
+    # 8) Final SHC check (from these two fuels)
+    total_heat_final = rdf_heat + (coal_feed * 1000.0 * COAL_NCV)
     if clinker_mass_kgph <= 0:
         shc_float = 0.0
     else:
         shc_float = total_heat_final / clinker_mass_kgph
 
-    # 8) Floor the final SHC
+    # 9) Floor final SHC
     final_shc_int = int(math.floor(shc_float))
 
-    # 9) Build row
+    # Build row for CSV
     row = {
         'timestamp': ts,
-        's_ph_sil_tput': kiln_feed,      # t/h of raw meal
-        'f_k_coal_tput': coal_feed,      # t/h of coal
-        'f_k_coal_ncv': COAL_NCV,        # can store coal ncv each row
-        'f_k_rdf_tput': rdf_feed,        # t/h of RDF
-        'f_k_rdf_ncv': rdf_ncv          # each hour's variable NCV
+        's_ph_sil_tput': kiln_feed,   # t/h raw meal
+        'f_k_rdf_tput': rdf_feed,     # t/h RDF
+        'f_k_rdf_ncv': rdf_ncv,       # variable NCV
+        'f_k_coal_tput': coal_feed,   # t/h coal (balancing energy)
+        'f_k_coal_ncv': COAL_NCV      # fixed
     }
     rows.append(row)
 
-    # Store SHC only if > 0 (optional—up to you)
+    # Store SHC if > 0 (optional)
     if final_shc_int > 0:
         shc_rows[ts] = final_shc_int
 
     current_time += timedelta(hours=1)
-
 
 # -----------------------
 # Write CSV
@@ -130,10 +124,10 @@ csv_filename = '/tmp/cde.csv'
 fieldnames = [
     'timestamp',
     's_ph_sil_tput',
-    'f_k_coal_tput',
-    'f_k_coal_ncv',
     'f_k_rdf_tput',
-    'f_k_rdf_ncv'
+    'f_k_rdf_ncv',
+    'f_k_coal_tput',
+    'f_k_coal_ncv'
 ]
 
 with open(csv_filename, mode='w', newline='') as f:
