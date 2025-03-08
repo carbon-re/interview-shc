@@ -30,6 +30,8 @@ locals {
     "plant-data/abc.README.md",
     "plant-data/bcd.csv",
     "plant-data/bcd.README.md",
+    "plant-data/cde.csv",
+    "plant-data/cde.README.md",
   ])
 }
 
