@@ -14,12 +14,13 @@ You're also going to want to pass the bucket as an env var to the lambda, or ...
 
 Bear in mind that your candidate may not have any AWS experience, or Terraform experience, so be prepared to baby step them if necessary. You don't need to go to the AWS console or understand much, so long as you package, deploy, and then run the test scripts.
 
-See what they _do_ know. Make conversation.
+See what they _do_ know. Make conversation. Let them ask questions and get stuck, but don't let them fall into a pit of despair.
 
 ## Before starting
 
 -  Do a terraform init in the src/infra directory.
-- `terraform destroy` any existing stuff
+- `terraform destroy` any existing stuf
+-  Create a branch for your candidate to work on. Remember to commit often and push.
 
 ## Getting started
 
