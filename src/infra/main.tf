@@ -29,4 +29,5 @@ resource "aws_s3_object" "this" {
   bucket = aws_s3_bucket.this.bucket
   key    = "abc.csv"
   source = "plant-data/abc.csv"
+  etag   = filemd5("plant-data/abc.csv")
 }
