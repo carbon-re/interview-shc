@@ -2,20 +2,22 @@
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
-BODY=""
 
 aws lambda invoke \
     --function-name shc-calculator \
     --region=eu-west-1 \
     --log-type=Tail \
+    --payload='{"plant": "abc"}' \
     --cli-binary-format raw-in-base64-out \
-    --payload='{ "plant": "bcd" }' \
-    /tmp/response.json
+    --query 'LogResult' --output text \
+    /tmp/response.json | base64 -d
 
-diff <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json")
+diff -q --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json")
 if [ $? -eq 0 ]; then
     echo "passed!"
 else
-    echo "FAILED!"
+
+    diff -y --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json") | head -n20
     grep error /tmp/response.json
+    echo "FAILED!"
 fi
