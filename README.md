@@ -1,0 +1,75 @@
+# Soft Sensor Kata
+
+This exercise is designed as a fun toy problem that's similar to the work we do every day on the platform team.
+
+There is [some background information](https://carbonre.notion.site/SHC-1ae57d5bd89d80ac8c8bfcf85f264c4e?pvs=74) on our notion site.
+
+Your interviewer will already have a laptop set up, but you may use your own laptop if you wish. For that to work, you will need a few tools.
+
+* Terraform 1.2.3
+* The pants launcher (www.pantsbuild.org)
+* Python 3.11
+* Gnu tools (diff, grep, bash)
+
+Your interviewer can provide an access key and secret so that you can access a sandbox environment.
+
+## The task
+
+You must build a lambda function that:
+
+* Reads a CSV file from S3
+* Calculates the specific heat consumption of a cement plant
+* Returns the calculated values
+
+## The data
+
+Each cement plant has a CSV file stored in an S3 bucket. The files are in this repository at `src/infra/plant-data`.
+Each csv file is accompanied with a README. 
+
+We suggest starting with `abc.csv` (Al Buraimi Cement).
+
+## The Lambda
+
+Your lambda function will be invoked directly, as though from the AWS console.
+The input to the lambda is a json object containing a plant code, eg.
+
+``` json
+{
+  "plant": "abc"
+}
+```
+
+The response from your lambda function must be a json object where the keys are timestamps and the values are the calculated specific heat consunption, eg.
+
+``` json
+{ 
+  "2023-03-01 17:00:00": 812, 
+  "2023-03-01 18:00:00": 801, 
+  "2023-03-01 19:00:00": 780
+}
+```
+
+## Building code
+
+We use a tool to manage our monorepo. It's called [pants](www.pantsbuild.org), which is an endless source of juvenile humour.
+
+You can build the lambda file by running `pants package ::` in the root of the repository. This will build a zip file containing your source code in `dist`. The zip file will contain the file `src/python/soft_sensors/handler.py`, plus any libraries or files that you import.
+
+## Deploying the lambda
+
+We use terraform to deploy the lambda function, upload the files, and create the S3 bucket.
+You can run `terraform apply` from `src/infra` assuming you have credentials for an AWS account.
+From the root of the project, you can run `terraform -chdir src/infra apply`. To skip confirmation, add the `-auto-approve` flag. You should avoid doing this on real world projects!
+
+## Testing the lambda
+
+We recommend using unit tests to make sure that your code works as expected. In particular, it is useful to unit test the ShcSoftSensor class. You may not need to test the lambda handler if it is simple.
+
+There is a script under `src/tool` for each plant, that will
+
+* Invoke your lambda function
+* Check that the result matches the expected output
+
+eg. `src/tool/test-abc.sh`
+
+If the lambda raises an error, or the output doesn't match, some diagnostic info, including any logs or print statements from your lambda, will be printed to the screen.
