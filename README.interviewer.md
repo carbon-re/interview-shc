@@ -8,6 +8,7 @@ Pants package will create a lambda.zip in dist.
 
 Terraform is set up with serverless.tf to deploy that zip file.
 
+You'll need to attach a bucket policy for the lambda to read data. Just use the [Read Only managed policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonS3ReadOnlyAccess.html)
 
 ## Before starting
 
@@ -18,8 +19,3 @@ Terraform is set up with serverless.tf to deploy that zip file.
 
 - Package the lambda and run terraform apply to deploy the lambda function
 - The script `src/tool/test-hello-world.sh` will invoke the lambda with no args and print its response
-
-## Tips
-
-- It will be annoying to remember to pants package then deploy. Consider scripting it.
-
