@@ -13,4 +13,5 @@ if [ $? -eq 0 ]; then
     echo "passed!"
 else
     echo "FAILED!"
+    cat /tmp/response.json
 fi
