@@ -29,6 +29,7 @@ You must build a lambda function that:
 
 Each cement plant has a CSV file stored in an S3 bucket. The files are in this repository at `src/infra/plant-data`.
 Each csv file is accompanied with a README. 
+The csvs are readmes are uploaded to an S3 bucket with a random name in the root of the bucket, eg. "$BUCKET_NAME/abc.csv" and "$BUCKET_NAME/abc.README.md"
 
 We suggest starting with `abc.csv` (Al Buraimi Cement).
 
@@ -79,3 +80,7 @@ There is a script under `src/tool` for each plant, that will
 eg. `src/tool/test-abc.sh`
 
 If the lambda raises an error, or the output doesn't match, some diagnostic info, including any logs or print statements from your lambda, will be printed to the screen.
+
+## Tips
+
+* It'll be annoying to run `pants package` and `terraform apply` all the time. Can you write a script to make it a single command?
