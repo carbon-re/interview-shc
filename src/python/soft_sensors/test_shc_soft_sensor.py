@@ -24,7 +24,7 @@ def test_shc():
     clinker = (1000 * 160) / 1.55
     energy = (12.9 * 1000) * 6000
 
-    assert result.shc[0] == (energy / clinker)
+    assert result.shc[0] == int(energy / clinker)
 
 
 def test_shc_from_file(test_data):

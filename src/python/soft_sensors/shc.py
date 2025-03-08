@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 class ShcSoftSensor:
@@ -10,5 +11,5 @@ class ShcSoftSensor:
     def calculate(self, transformed_data: pd.DataFrame) -> pd.DataFrame:
         transformed_data["clinker"] = (transformed_data["s_ph_sil_tput"] * 1000) / 1.55
         transformed_data["energy"] = transformed_data["f_k_coal_tput"] * 1000 * transformed_data["f_k_coal_ncv"]
-        transformed_data["shc"] = transformed_data["energy"] / transformed_data["clinker"]
+        transformed_data["shc"] = np.floor(transformed_data["energy"] / transformed_data["clinker"]).astype(int)
         return transformed_data[["timestamp", "shc"]]

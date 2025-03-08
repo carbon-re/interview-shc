@@ -7,4 +7,6 @@ def handle(event, context):
     bucket = os.environ["BUCKET"]
     data = wr.s3.read_csv(f's3://{bucket}/abc.csv')
     soft_sensor = shc.ShcSoftSensor()
-    return soft_sensor.calculate(data)
+    result = soft_sensor.calculate(data)
+    result = result.set_index("timestamp")
+    return result["shc"].to_dict()
