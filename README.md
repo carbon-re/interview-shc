@@ -53,6 +53,8 @@ The response from your lambda function must be a json object where the keys are 
 }
 ```
 
+You must round the SHC _down_ to the nearest integer.
+
 ## Building code
 
 We use a tool to manage our monorepo. It's called [pants](www.pantsbuild.org), which is an endless source of juvenile humour.
