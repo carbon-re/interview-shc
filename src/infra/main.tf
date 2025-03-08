@@ -24,10 +24,19 @@ resource "aws_s3_bucket" "this" {
   force_destroy = true
 }
 
+locals {
+  files = [
+    "plant-data/abc.csv",
+    "plant-data/abc.README.md",
+    "plant-data/bcd.csv",
+    "plant-data/bcd.README.md",
+  ]
+}
 
-resource "aws_s3_object" "this" {
-  bucket = aws_s3_bucket.this.bucket
-  key    = "abc.csv"
-  source = "plant-data/abc.csv"
-  etag   = filemd5("plant-data/abc.csv")
+resource "aws_s3_object" "data" {
+  for_each = local.files
+  bucket   = aws_s3_bucket.this.bucket
+  key      = "abc.csv"
+  source   = each.value
+  etag     = filemd5(each.value)
 }
