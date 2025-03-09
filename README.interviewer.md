@@ -26,3 +26,20 @@ See what they _do_ know. Make conversation. Let them ask questions and get stuck
 
 - Package the lambda and run terraform apply to deploy the lambda function
 - The script `src/tool/test-hello-world.sh` will invoke the lambda with no args and print its response
+
+## Creating a virtualenv
+
+There's a pants alias `export_venv` that will export the python deps into dist. Personally, I set it up with
+
+```terminal
+$ pants export_venv
+
+17:36:18.55 [INFO] Completed: Build pex for resolve `python-default`
+Wrote symlink to immutable virtualenv for python-default (using Python 3.11.11) to dist/export/python/virtualenvs/python-default/3.11.11
+
+$ ln -sf $PWD/dist/export/python/virtualenvs/python-default/3.11.11 ~/.pyenv/versions/shc
+
+soft-sensor-kata on  main [$!] on ☁️  (eu-west-2)
+$ pyenv local shc
+```
+But your mileage may vary, especially if you're mucking about with one of those Apple thingies. Once you have that venv in pyenv, you should be able to use it in vscode, but I've not tested that cos emacs.

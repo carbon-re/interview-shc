@@ -38,7 +38,6 @@ install_from_resolve = "ruff"
 formatter = "ruff"
 
 [cli.alias]
-create_venv = "run src/meta/venv:create"
-sync_venv = "export --export-resolve=python-default --export-py-resolve-format=symlinked_immutable_virtualenv"
+export_venv = "export --export-resolve=python-default --export-py-resolve-format=symlinked_immutable_virtualenv"
 lock = "generate-lockfiles --resolve=python-default --diff=true"
 install = "lock sync_venv"

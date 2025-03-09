@@ -20,3 +20,4 @@ Thumbs.db
 .pants.d
 /dist/
 /todo.org
+/.python-version
