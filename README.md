@@ -10,11 +10,11 @@ There is [some background information](https://carbonre.notion.site/SHC-1ae57d5b
 
 Your interviewer will already have a laptop set up, but you may use your own laptop if you wish. For that to work, you will need a few tools.
 
-* Terraform 1.2.3
-* The pants launcher (www.pantsbuild.org)
-* Python 3.11
-* Gnu tools (diff, grep, bash)
-* The AWS cli
+- Terraform 1.2.3
+- The pants launcher (www.pantsbuild.org)
+- Python 3.11
+- Gnu tools (diff, grep, bash)
+- The AWS cli
 
 Your interviewer can provide an access key and secret so that you can access a sandbox environment.
 
@@ -22,14 +22,14 @@ Your interviewer can provide an access key and secret so that you can access a s
 
 You must build a lambda function that:
 
-* Reads a CSV file from S3
-* Calculates the specific heat consumption of a cement plant
-* Returns the calculated values
+- Reads a CSV file from S3
+- Calculates the specific heat consumption of a cement plant
+- Returns the calculated values
 
 ## The data
 
 Each cement plant has a CSV file stored in an S3 bucket. The files are in this repository at `src/infra/plant-data`.
-Each csv file is accompanied with a README. 
+Each csv file is accompanied with a README.
 The csvs and readmes are uploaded to an S3 bucket with a random name in the root of the bucket, eg. "$BUCKET_NAME/abc.csv" and "$BUCKET_NAME/abc.README.md"
 
 We suggest starting with `abc.csv` (Al Buraimi Cement).
@@ -39,7 +39,7 @@ We suggest starting with `abc.csv` (Al Buraimi Cement).
 Your lambda function will be invoked directly, as though from the AWS console.
 The input to the lambda is a json object containing a plant code, eg.
 
-``` json
+```json
 {
   "plant": "abc"
 }
@@ -47,10 +47,10 @@ The input to the lambda is a json object containing a plant code, eg.
 
 The response from your lambda function must be a json object where the keys are timestamps and the values are the calculated specific heat consunption, eg.
 
-``` json
-{ 
-  "2023-03-01 17:00:00": 812, 
-  "2023-03-01 18:00:00": 801, 
+```json
+{
+  "2023-03-01 17:00:00": 812,
+  "2023-03-01 18:00:00": 801,
   "2023-03-01 19:00:00": 780
 }
 ```
@@ -71,12 +71,12 @@ From the root of the project, you can run `terraform -chdir src/infra apply`. To
 
 ## Testing the lambda
 
-We recommend using unit tests to make sure that your code works as expected. In particular, it is useful to unit test the ShcSoftSensor class. You may not need to test the lambda handler if it is simple.
+We recommend using unit tests to make sure that your code works as expected. In particular, it is useful to unit test the `ShcSoftSensor` class. You may not need to test the lambda handler if it is simple.
 
 There is a script under `src/tool` for each plant, that will
 
-* Invoke your lambda function
-* Check that the result matches the expected output
+- Invoke your lambda function
+- Check that the result matches the expected output
 
 eg. `src/tool/test-abc.sh`
 
@@ -84,5 +84,5 @@ If the lambda raises an error, or the output doesn't match, some diagnostic info
 
 ## Tips
 
-* It'll be annoying to run `pants package` and `terraform apply` all the time. Can you write a script to make it a single command?
-* The lambda function ships with pandas, and a library called [awswrangler](https://aws-sdk-pandas.readthedocs.io/en/latest/stubs/awswrangler.s3.read_csv.html) that makes it easy to read CSV files from S3.
+- It'll be annoying to run `pants package` and `terraform apply` all the time. Can you write a script to make it a single command?
+- The lambda function ships with pandas, and a library called [awswrangler](https://aws-sdk-pandas.readthedocs.io/en/latest/stubs/awswrangler.s3.read_csv.html) that makes it easy to read CSV files from S3.

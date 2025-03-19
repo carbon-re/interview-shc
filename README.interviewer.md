@@ -18,9 +18,9 @@ See what they _do_ know. Make conversation. Let them ask questions and get stuck
 
 ## Before starting
 
--  Do a terraform init in the src/infra directory.
-- `terraform destroy` any existing stuf
--  Create a branch for your candidate to work on. Remember to commit often and push.
+- Do a terraform init in the src/infra directory.
+- `terraform destroy` any existing stuff
+- Create a branch for your candidate to work on. Remember to commit often and push.
 
 ## Getting started
 
@@ -42,4 +42,5 @@ $ ln -sf $PWD/dist/export/python/virtualenvs/python-default/3.11.11 ~/.pyenv/ver
 soft-sensor-kata on  main [$!] on ☁️  (eu-west-2)
 $ pyenv local shc
 ```
+
 But your mileage may vary, especially if you're mucking about with one of those Apple thingies. Once you have that venv in pyenv, you should be able to use it in vscode, but I've not tested that cos emacs.

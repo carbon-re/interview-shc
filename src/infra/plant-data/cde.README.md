@@ -9,7 +9,7 @@ sewage sludge, kerosene, hydrogen, and anything else they can get their hands on
 The variability caused by cement plants burning random stuff is a major driver for the use
 of AI in process control.
 
-CDE burns as much RDF as they can, because they get paid to burn it. The dosing equipment that they have can burn up to 120 tons an hour. Because it's rubbish, the NCV is variable. In order to get the kiln hot enough, the plant also burn coal.
+CDE burns as much RDF as they can, because they get paid to burn it. The dosing equipment that they have can burn up to 120 tons an hour. Because it's rubbish, the NCV is variable. In order to get the kiln hot enough, the plant also burns coal.
 
 The amount of coal that the plant burns varies with the NCV of the RDF - lower quality rubbish -> more coal.
 
