@@ -10,7 +10,7 @@ There is [some background information](https://carbonre.notion.site/SHC-1ae57d5b
 
 Your interviewer will already have a laptop set up, but you may use your own laptop if you wish. For that to work, you will need a few tools.
 
-- Terraform 1.2.3
+- Terraform 1.11.0
 - The pants launcher (www.pantsbuild.org)
 - Python 3.11
 - Gnu tools (diff, grep, bash)
