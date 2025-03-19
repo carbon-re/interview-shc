@@ -86,3 +86,10 @@ If the lambda raises an error, or the output doesn't match, some diagnostic info
 
 - It'll be annoying to run `pants package` and `terraform apply` all the time. Can you write a script to make it a single command?
 - The lambda function ships with pandas, and a library called [awswrangler](https://aws-sdk-pandas.readthedocs.io/en/latest/stubs/awswrangler.s3.read_csv.html) that makes it easy to read CSV files from S3.
+
+Things
+
+Explain units
+Explain where to get SHC from
+Allow login to console
+What's the point in using wrangler when you can just use read_csv?

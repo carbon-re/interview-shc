@@ -7,12 +7,13 @@ import pandas as pd
 from src.python.soft_sensors import SoftSensor
 from src.python.soft_sensors.shc import ShcSoftSensor
 
+
 def test_shc():
     data = {
-        'timestamp': ['2023-01-01 00:00:00'],
-        's_ph_sil_tput': [160.0],
-        'f_k_coal_tput': [12.9],
-        'f_k_coal_ncv': [6000],
+        "timestamp": ["2023-01-01 00:00:00"],
+        "s_ph_sil_tput": [160.92999986474155],
+        "f_k_coal_tput": [12.91650613703571],
+        "f_k_coal_ncv": [6000],
     }
 
     df = pd.DataFrame(data)
@@ -23,13 +24,19 @@ def test_shc():
 
     expected = None
 
-    assert result.shc[0] == expected
+    assert result.shc[0] == 746
 
 
 def test_shc_from_file(test_data):
     df = test_data("abc.csv")
+    print("DF")
     print(df)
-    assert False
+    sensor = ShcSoftSensor()
+    transformed = sensor.transform(df)
+    result = sensor.calculate(transformed)
+    print(result)
+    assert result.shc[1] == 764
+
 
 if typing.TYPE_CHECKING:
     x: SoftSensor = ShcSoftSensor()

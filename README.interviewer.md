@@ -18,7 +18,21 @@ See what they _do_ know. Make conversation. Let them ask questions and get stuck
 
 ## Before starting
 
-- Do a terraform init in the src/infra directory.
+- Do a terraform init in the src/infra directory. If you are running on your own
+  machine you can use a profile:
+
+  ```sh
+  AWS_PROFILE=sandbox-interview.Platform terraform -chdir=src/infra init
+  ```
+
+  Or if you are running on the interviewee's machine get AWS environment variables
+  for the `sandbox-interview` account from the AWS SSO access portal and set them
+  in their environment, then run:
+
+  ```sh
+  terraform -chdir=src/infra init
+  ```
+
 - `terraform destroy` any existing stuff
 - Create a branch for your candidate to work on. Remember to commit often and push.
 
