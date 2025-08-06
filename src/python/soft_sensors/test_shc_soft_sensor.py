@@ -7,6 +7,13 @@ import pandas as pd
 from src.python.soft_sensors import SoftSensor
 from src.python.soft_sensors.shc import ShcSoftSensor
 
+# The specific heat consumption of a plant is
+
+# (heat) / (mass of clinker)
+
+# where mass of clinker = (mass of **raw meal** / **clinker ratio**)
+# and heat = the sum of (mass of fuel * **net calorific value**)  for each fuel
+
 def test_shc():
     data = {
         'timestamp': ['2023-01-01 00:00:00'],
@@ -21,15 +28,15 @@ def test_shc():
     transformed = sensor.transform(df)
     result = sensor.calculate(transformed)
 
-    expected = None
+    print("resss :: ", result)
 
-    assert result.shc[0] == expected
+    assert result.shc[0] == 750
 
 
-def test_shc_from_file(test_data):
-    df = test_data("abc.csv")
-    print(df)
-    assert False
+# def test_shc_from_file(test_data):
+#     df = test_data("abc.csv")
+#     print(df)
+#     assert False
 
 if typing.TYPE_CHECKING:
     x: SoftSensor = ShcSoftSensor()

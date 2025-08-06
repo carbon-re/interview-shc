@@ -10,6 +10,8 @@ module "lambda_function" {
   create_package         = false
   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
 
+  attach_policy = true
+  policy   = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
   layers = [
     var.wrangler_layer_arn
   ]
