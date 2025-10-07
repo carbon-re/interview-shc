@@ -8,6 +8,9 @@ module "lambda_function" {
   runtime       = "python3.11"
   memory_size   = 512
 
+  attach_policy = true
+  policy = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+
   create_package         = false
   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
 
