@@ -36,7 +36,7 @@ CLINKER_RATIO = 1.55
 
 # Zero-RDF window
 ZERO_RDF_START = START_DATE + timedelta(days=20)  # day 20 to 25, for example
-ZERO_RDF_END   = ZERO_RDF_START + timedelta(days=5)
+ZERO_RDF_END = ZERO_RDF_START + timedelta(days=5)
 
 random.seed(SEED)
 
@@ -48,8 +48,8 @@ shc_rows = {}
 current_time = START_DATE
 
 for i in range(NUM_HOURS):
-    ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
-    in_zero_rdf = (ZERO_RDF_START <= current_time < ZERO_RDF_END)
+    ts = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    in_zero_rdf = ZERO_RDF_START <= current_time < ZERO_RDF_END
 
     # 1) Intended SHC from normal dist (around 800 ± 20)
     shc_raw = random.normalvariate(SHC_MEAN, SHC_STD)
@@ -102,12 +102,12 @@ for i in range(NUM_HOURS):
 
     # Build row for CSV
     row = {
-        'timestamp': ts,
-        's_ph_sil_tput': kiln_feed,   # t/h raw meal
-        'f_k_rdf_tput': rdf_feed,     # t/h RDF
-        'f_k_rdf_ncv': rdf_ncv,       # variable NCV
-        'f_k_coal_tput': coal_feed,   # t/h coal (balancing energy)
-        'f_k_coal_ncv': COAL_NCV      # fixed
+        "timestamp": ts,
+        "s_ph_sil_tput": kiln_feed,  # t/h raw meal
+        "f_k_rdf_tput": rdf_feed,  # t/h RDF
+        "f_k_rdf_ncv": rdf_ncv,  # variable NCV
+        "f_k_coal_tput": coal_feed,  # t/h coal (balancing energy)
+        "f_k_coal_ncv": COAL_NCV,  # fixed
     }
     rows.append(row)
 
@@ -120,17 +120,17 @@ for i in range(NUM_HOURS):
 # -----------------------
 # Write CSV
 # -----------------------
-csv_filename = '/tmp/cde.csv'
+csv_filename = "/tmp/cde.csv"
 fieldnames = [
-    'timestamp',
-    's_ph_sil_tput',
-    'f_k_rdf_tput',
-    'f_k_rdf_ncv',
-    'f_k_coal_tput',
-    'f_k_coal_ncv'
+    "timestamp",
+    "s_ph_sil_tput",
+    "f_k_rdf_tput",
+    "f_k_rdf_ncv",
+    "f_k_coal_tput",
+    "f_k_coal_ncv",
 ]
 
-with open(csv_filename, mode='w', newline='') as f:
+with open(csv_filename, mode="w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     for r in rows:
@@ -139,8 +139,8 @@ with open(csv_filename, mode='w', newline='') as f:
 # -----------------------
 # Write JSON of final SHC
 # -----------------------
-json_filename = '/tmp/cde.expected.json'
-with open(json_filename, 'w') as f:
+json_filename = "/tmp/cde.expected.json"
+with open(json_filename, "w") as f:
     json.dump(shc_rows, f)
 
 print(f"Generated '{csv_filename}' with {NUM_HOURS} rows.")

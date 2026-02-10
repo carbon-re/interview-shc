@@ -10,8 +10,8 @@ from datetime import datetime, timedelta
 # -----------------------
 #
 
-START_DATE = datetime(2025, 1, 1, 0, 0)   # Starting timestamp
-NUM_DAYS = 5                              # e.g., 5 days of data
+START_DATE = datetime(2025, 1, 1, 0, 0)  # Starting timestamp
+NUM_DAYS = 5  # e.g., 5 days of data
 NUM_HOURS = 24 * NUM_DAYS
 SEED = 42
 
@@ -39,7 +39,7 @@ CLINKER_RATIO = 1.55
 
 # Zero-RDF window to simulate downtime
 ZERO_RDF_START = START_DATE + timedelta(days=1)  # Day 1 to day 2
-ZERO_RDF_END   = ZERO_RDF_START + timedelta(days=1)
+ZERO_RDF_END = ZERO_RDF_START + timedelta(days=1)
 
 # For reproducibility
 random.seed(SEED)
@@ -56,10 +56,10 @@ current_time = START_DATE
 
 for i in range(NUM_HOURS):
     # Timestamp
-    ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
-    current_time_dt = datetime.strptime(ts, '%Y-%m-%d %H:%M:%S')
+    ts = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    current_time_dt = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
 
-    in_zero_rdf_window = (ZERO_RDF_START <= current_time_dt < ZERO_RDF_END)
+    in_zero_rdf_window = ZERO_RDF_START <= current_time_dt < ZERO_RDF_END
 
     # 1) "Intended" SHC from normal distribution (center ~800)
     shc_raw = random.normalvariate(SHC_MEAN, SHC_STD)
@@ -117,12 +117,12 @@ for i in range(NUM_HOURS):
     # Build row data
     #
     row = {
-        'timestamp': ts,
-        's_ph_sil_tput': kiln_feed,
-        'f_k_rdf_tput': rdf_feed,
-        'f_k_rdf_ncv': rdf_ncv_gjpt,  # store in GJ/ton
-        'f_k_petcoke_tput': petcoke_feed,
-        'f_k_petcoke_ncv': PETCOKE_NCV,    # kcal/kg
+        "timestamp": ts,
+        "s_ph_sil_tput": kiln_feed,
+        "f_k_rdf_tput": rdf_feed,
+        "f_k_rdf_ncv": rdf_ncv_gjpt,  # store in GJ/ton
+        "f_k_petcoke_tput": petcoke_feed,
+        "f_k_petcoke_ncv": PETCOKE_NCV,  # kcal/kg
     }
     rows.append(row)
 
@@ -139,17 +139,17 @@ for i in range(NUM_HOURS):
 # Write CSV
 # -----------------------
 #
-csv_filename = '/tmp/def.csv'
+csv_filename = "/tmp/def.csv"
 fieldnames = [
-    'timestamp',
-    's_ph_sil_tput',
-    'f_k_rdf_tput',
-    'f_k_rdf_ncv',
-    'f_k_petcoke_tput',
-    'f_k_petcoke_ncv'
+    "timestamp",
+    "s_ph_sil_tput",
+    "f_k_rdf_tput",
+    "f_k_rdf_ncv",
+    "f_k_petcoke_tput",
+    "f_k_petcoke_ncv",
 ]
 
-with open(csv_filename, mode='w', newline='') as f:
+with open(csv_filename, mode="w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     for r in rows:
@@ -160,8 +160,8 @@ with open(csv_filename, mode='w', newline='') as f:
 # Write JSON of final SHC
 # -----------------------
 #
-json_filename = '/tmp/def.expected.json'
-with open(json_filename, 'w') as f:
+json_filename = "/tmp/def.expected.json"
+with open(json_filename, "w") as f:
     json.dump(shc_rows, f)
 
 print(f"Generated '{csv_filename}' with {NUM_HOURS} rows.")
