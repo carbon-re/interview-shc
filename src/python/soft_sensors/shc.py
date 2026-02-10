@@ -1,6 +1,7 @@
 import pandas as pd
-class ShcSoftSensor:
 
+
+class ShcSoftSensor:
     def transform(self, raw_data: pd.DataFrame) -> pd.DataFrame:
         return raw_data
 

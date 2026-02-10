@@ -29,10 +29,6 @@ pip_version = "24.2"
 
 [python.resolves]
 python-default = "lockfiles/python-default.lock"
-ruff = "lockfiles/ruff.lock"
-
-[ruff]
-install_from_resolve = "ruff"
 
 [update-build-files]
 formatter = "ruff"

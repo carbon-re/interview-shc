@@ -25,7 +25,7 @@ MIN_VALUE = 0.0
 
 # Zero-production period: a 30-day window in the middle
 start_of_zero = START_DATE + timedelta(days=150)
-end_of_zero   = start_of_zero + timedelta(days=30)
+end_of_zero = start_of_zero + timedelta(days=30)
 
 random.seed(SEED)
 
@@ -37,8 +37,8 @@ shc_rows = {}
 current_time = START_DATE
 
 for i in range(NUM_HOURS):
-    ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
-    in_zero_window = (start_of_zero <= current_time < end_of_zero)
+    ts = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    in_zero_window = start_of_zero <= current_time < end_of_zero
 
     # --------------------------
     # 1) "Intended" SHC
@@ -82,10 +82,10 @@ for i in range(NUM_HOURS):
     # Build row for CSV
     ncv_for_this_row = COAL_NCV if (i == 0) else ""  # only show NCV in first row
     row = {
-        'timestamp': ts,
-        's_ph_sil_tput': kiln_feed,    # t/h
-        'f_k_coal_tput': coal_feed,    # t/h
-        'f_k_coal_ncv': ncv_for_this_row
+        "timestamp": ts,
+        "s_ph_sil_tput": kiln_feed,  # t/h
+        "f_k_coal_tput": coal_feed,  # t/h
+        "f_k_coal_ncv": ncv_for_this_row,
     }
     rows.append(row)
 
@@ -98,9 +98,9 @@ for i in range(NUM_HOURS):
 # -----------------------
 # Write CSV
 # -----------------------
-csv_filename = '/tmp/abc_coal_ncv_firstrow.csv'
-with open(csv_filename, mode='w', newline='') as f:
-    fieldnames = ['timestamp', 's_ph_sil_tput', 'f_k_coal_tput', 'f_k_coal_ncv']
+csv_filename = "/tmp/abc_coal_ncv_firstrow.csv"
+with open(csv_filename, mode="w", newline="") as f:
+    fieldnames = ["timestamp", "s_ph_sil_tput", "f_k_coal_tput", "f_k_coal_ncv"]
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     for r in rows:

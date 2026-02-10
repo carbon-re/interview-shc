@@ -54,12 +54,12 @@ for i in range(NUM_HOURS):
     final_shc_int = math.floor(shc_recalc)
 
     # Build row
-    ts = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    ts = current_time.strftime("%Y-%m-%d %H:%M:%S")
     row = {
-        'timestamp': ts,
-        's_ph_sil_tput': kiln_feed,
-        'f_k_coal_tput': coal_feed,
-        'f_k_coal_ncv': COAL_NCV
+        "timestamp": ts,
+        "s_ph_sil_tput": kiln_feed,
+        "f_k_coal_tput": coal_feed,
+        "f_k_coal_ncv": COAL_NCV,
     }
     rows.append(row)
     shc_rows[ts] = final_shc_int
@@ -69,11 +69,10 @@ for i in range(NUM_HOURS):
 # -----------------------
 # Write CSV
 # -----------------------
-csv_filename = '/tmp/abc.csv'
-with open(csv_filename, mode='w', newline='') as f:
+csv_filename = "/tmp/abc.csv"
+with open(csv_filename, mode="w", newline="") as f:
     writer = csv.DictWriter(
-        f,
-        fieldnames=['timestamp', 's_ph_sil_tput', 'f_k_coal_tput', 'f_k_coal_ncv']
+        f, fieldnames=["timestamp", "s_ph_sil_tput", "f_k_coal_tput", "f_k_coal_ncv"]
     )
     writer.writeheader()
     for r in rows:
