@@ -22,9 +22,9 @@ def test_shc():
     transformed = sensor.transform(df)
     result = sensor.calculate(transformed)
 
-    expected = None
+    expected = 7989677
 
-    assert result.shc[0] == expected
+    assert result["2023-01-01 00:00:00"] == expected
 
 
 def test_shc_from_file(test_data):
