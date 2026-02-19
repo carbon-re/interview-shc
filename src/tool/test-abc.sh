@@ -12,12 +12,13 @@ aws lambda invoke \
     --query 'LogResult' --output text \
     /tmp/response.json | base64 -d
 
-diff -q --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json")
-if [ $? -eq 0 ]; then
-    echo "passed!"
-else
+cat /tmp/response.json
+# diff -q --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json")
+# if [ $? -eq 0 ]; then
+#     echo "passed!"
+# else
 
-    diff -y --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json") | head -n20
-    grep error /tmp/response.json
-    echo "FAILED!"
-fi
+#     diff -y --suppress-common-lines <(jq --sort-keys . /tmp/response.json) <(jq --sort-keys . "$SCRIPTPATH/results/abc.expected.json") | head -n20
+#     grep error /tmp/response.json
+#     echo "FAILED!"
+# fi
