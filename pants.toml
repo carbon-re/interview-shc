@@ -27,6 +27,9 @@ interpreter_constraints = [">=3.11,<3.12"]
 enable_resolves = true
 pip_version = "24.2"
 
+[pytest]
+args = ["-s", "-vv"]
+
 [python.resolves]
 python-default = "lockfiles/python-default.lock"
 

@@ -19,18 +19,25 @@ def test_shc():
     df = pd.DataFrame(data)
 
     sensor = ShcSoftSensor()
-    transformed = sensor.transform(df)
-    result = sensor.calculate(transformed)
+    result = sensor.calculate(df)
 
-    expected = None
+    expected_heat_consumption = (12.9 * 6000) / (160.0 / 1.55)
 
-    assert result.shc[0] == expected
+    expected = pd.DataFrame(
+        {
+            "timestamp": ["2023-01-01 00:00:00"],
+            "heat_consumption": [expected_heat_consumption],
+        }
+    )
+    print(result)
+
+    assert result == expected
 
 
-def test_shc_from_file(test_data):
-    df = test_data("abc.csv")
-    print(df)
-    assert False
+# def test_shc_from_file(test_data):
+#     df = test_data("abc.csv")
+#     print(df)
+#     assert False
 
 
 if typing.TYPE_CHECKING:
