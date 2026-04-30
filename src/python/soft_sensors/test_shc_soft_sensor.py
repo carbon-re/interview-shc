@@ -22,7 +22,7 @@ def test_shc():
     transformed = sensor.transform(df)
     result = sensor.calculate(transformed)
 
-    expected = None
+    expected = 749.8125
 
     assert result.shc[0] == expected
 
