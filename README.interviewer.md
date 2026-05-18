@@ -44,3 +44,10 @@ $ pyenv local shc
 ```
 
 But your mileage may vary, especially if you're mucking about with one of those Apple thingies. Once you have that venv in pyenv, you should be able to use it in vscode, but I've not tested that cos emacs.
+
+## Assuming admin role on the interview account
+Remember you need to be able to deploy and invoke the lambda in the interview account:
+
+```bash
+source ../carbo/src/infra/aws/assume_admin.sh sandbox-interview
+```
