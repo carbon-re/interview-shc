@@ -67,7 +67,7 @@ You can build the lambda file by running `pants package ::` in the root of the r
 
 We use terraform to deploy the lambda function, upload the files, and create the S3 bucket.
 You can run `terraform apply` from `src/infra` assuming you have credentials for an AWS account.
-From the root of the project, you can run `terraform -chdir src/infra apply`. To skip confirmation, add the `-auto-approve` flag. You should avoid doing this on real world projects!
+From the root of the project, you can run `terraform -chdir=src/infra apply`. To skip confirmation, add the `-auto-approve` flag. You should avoid doing this on real world projects!
 
 ## Testing the lambda
 
