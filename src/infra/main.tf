@@ -1,27 +1,27 @@
-module "lambda_function" {
-  source = "terraform-aws-modules/lambda/aws"
-  version = "~> 7.0"
+# module "lambda_function" {
+#   source = "terraform-aws-modules/lambda/aws"
+#   version = "~> 7.0"
 
-  function_name = "shc-calculator"
-  description   = "My awesome lambda function"
-  handler       = "src.python.soft_sensors.handler.handle"
-  runtime       = "python3.11"
-  memory_size   = 512
+#   function_name = "shc-calculator"
+#   description   = "My awesome lambda function"
+#   handler       = "src.python.soft_sensors.handler.handle"
+#   runtime       = "python3.11"
+#   memory_size   = 512
 
-  attach_policy = true
-  policy = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+#   attach_policy = true
+#   policy = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 
-  create_package         = false
-  local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
+#   create_package         = false
+#   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"
 
-  layers = [
-    var.wrangler_layer_arn
-  ]
+#   layers = [
+#     var.wrangler_layer_arn
+#   ]
 
-  tags = {
-    Name = "my-lambda1"
-  }
-}
+#   tags = {
+#     Name = "my-lambda1"
+#   }
+# }
 
 resource "aws_s3_bucket" "this" {
   bucket_prefix = "cre-data-shc"
