@@ -1,5 +1,5 @@
 module "lambda_function" {
-  source = "terraform-aws-modules/lambda/aws"
+  source  = "terraform-aws-modules/lambda/aws"
   version = "~> 7.0"
 
   function_name = "shc-calculator"
@@ -9,7 +9,13 @@ module "lambda_function" {
   memory_size   = 512
 
   attach_policy = true
-  policy = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  policy        = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+
+  environment_variables = {
+    DATA_BUCKET             = aws_s3_bucket.this.bucket
+    DATA_PREFIX             = ""
+    POWERTOOLS_SERVICE_NAME = "shc-calculator"
+  }
 
   create_package         = false
   local_existing_package = "../../dist/src.python.soft_sensors/lambda.zip"

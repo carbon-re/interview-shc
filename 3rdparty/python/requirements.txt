@@ -1,8 +1,10 @@
-pytest
+# pants 2.24's pytest runner boots via `_pytest.config:_console_main`, removed in pytest 9.
+pytest<9
 rich
 colorama
 
 click
 
+aws-lambda-powertools
 awswrangler
 pandas
