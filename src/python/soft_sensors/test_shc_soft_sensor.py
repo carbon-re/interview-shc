@@ -22,9 +22,8 @@ def test_shc():
     transformed = sensor.transform(df)
     result = sensor.calculate(transformed)
 
-    expected = None
-
-    assert result.shc[0] == expected
+    assert isinstance(result, pd.DataFrame)
+    assert result["shc"][0] == 749.8125
 
 
 def test_shc_from_file(test_data) -> None:
