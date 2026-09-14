@@ -71,7 +71,7 @@ From the root of the project, you can run `terraform -chdir src/infra apply`. To
 
 ## Testing the lambda
 
-We recommend using unit tests to make sure that your code works as expected. In particular, it is useful to unit test the `ShcSoftSensor` class. You may not need to test the lambda handler if it is simple.
+We recommend using unit tests to make sure that your code works as expected. In particular, it is useful to unit test the `shc` module functions. You may not need to test the lambda handler if it is simple.
 
 There is a script under `src/tool` for each plant, that will
 

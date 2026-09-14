@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 
-import typing
-
 import pandas as pd
 
-from src.python.soft_sensors import SoftSensor
-from src.python.soft_sensors.shc import ShcSoftSensor
+from src.python.soft_sensors.shc import calculate, transform
 
 
-def test_shc():
+def test_shc_success() -> None:
+    """Test that the shc calculation works correctly."""
     data = {
         "timestamp": ["2023-01-01 00:00:00"],
         "s_ph_sil_tput": [160.0],
@@ -18,9 +16,8 @@ def test_shc():
 
     df = pd.DataFrame(data)
 
-    sensor = ShcSoftSensor()
-    transformed = sensor.transform(df)
-    result = sensor.calculate(transformed)
+    transformed = transform(df)
+    result = calculate(transformed)
 
     assert isinstance(result, pd.DataFrame)
     assert result["shc"][0] == 749.8125
@@ -29,7 +26,3 @@ def test_shc():
 def test_shc_from_file(test_data) -> None:
     df = test_data("abc.csv")
     assert isinstance(df, pd.DataFrame)
-
-
-if typing.TYPE_CHECKING:
-    x: SoftSensor = ShcSoftSensor()
