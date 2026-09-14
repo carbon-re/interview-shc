@@ -27,10 +27,9 @@ def test_shc():
     assert result.shc[0] == expected
 
 
-def test_shc_from_file(test_data):
+def test_shc_from_file(test_data) -> None:
     df = test_data("abc.csv")
-    print(df)
-    assert False
+    assert isinstance(df, pd.DataFrame)
 
 
 if typing.TYPE_CHECKING:
